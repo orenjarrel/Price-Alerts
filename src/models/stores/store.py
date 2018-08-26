@@ -1,6 +1,7 @@
 import uuid
 import src.models.stores.constants as StoreConstants
 from src.common.database import Database
+import src.models.stores.errors as StoreErrors
 
 
 class Store(object):
@@ -45,3 +46,18 @@ class Store(object):
 
         # the $regex variable is a mongodb option that allows pattern matching in the database
         return cls(**Database.find_one(StoreConstants.COLLECTION, {"url_prefix": {"$regex": '^{}'.format(url_prefix)}}))
+
+    @classmethod
+    def find_by_url(cls, url):
+        """
+        Return a store from a url like: http://www.johnlewis.com/item/<hex num>.html
+        :param url: the item's URL
+        :return: a Store, or raises a StoreNotFoundException if no store matches the URL
+        """
+
+        for i in range(0, len(url)+1):
+            try:
+                store = cls.get_store_by_url_prefix(url[:i])
+                return store
+            except:
+                raise StoreErrors.StoreNotFoundException("The URL Prefix did not yield a result")
