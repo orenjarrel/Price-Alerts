@@ -1,5 +1,5 @@
-from flask import Flask
 from src.common.database import Database
+from flask import Flask, render_template
 
 
 app = Flask(__name__)
@@ -10,6 +10,11 @@ app.secret_key = "123"
 @app.before_first_request
 def init_db():
     Database.initialize()
+
+
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 
 from src.models.users.views import user_blueprint
