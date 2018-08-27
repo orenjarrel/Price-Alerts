@@ -8,9 +8,40 @@
 </head>
 <body>
 
-{% block content %}
+<nav class="navbar navbar-default">
+    <div class ="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/" title="Home">Pricing</a>
+        </div>
 
-{% endblock %}
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/store">Store</a></li>
+                <li><a href="/alerts">Alerts</a></li>
+            </ul>
+
+            {% if session['email'] %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/alerts"><span class="glyphicon glyphicon-alert"></span>   Your Alerts</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>  Log out</a></li>
+            </ul>
+            {% else %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/register"><span class="glyphicon glyphicon-user"></span>  Sign up</a></li>
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>  Log in</a></li>
+            </ul>
+
+            {% endif %}
+
+        </div>
+    </div>
+</nav>
+
+<div class="content container">
+    {% block content %}
+
+    {% endblock %}
+</div>
 
 </body>
 </html>

@@ -16,6 +16,10 @@ def init_db():
 def home():
     return render_template('home.html')
 
+@app.route('/test')
+def home2():
+    return render_template('home2.html')
+
 
 from src.models.users.views import user_blueprint
 app.register_blueprint(user_blueprint, url_prefix="/users")
