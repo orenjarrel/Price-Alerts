@@ -16,6 +16,7 @@ def init_db():
 def home():
     return render_template('home.html')
 
+
 @app.route('/test')
 def home2():
     return render_template('home2.html')

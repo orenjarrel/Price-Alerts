@@ -2,6 +2,8 @@ import uuid
 from src.common.utils import Utils
 from src.common.database import Database
 import src.models.users.errors as UserErrors
+from src.models.alerts.alert import Alert
+import src.models.users.constants as UserConstants
 
 
 class User(object):
@@ -25,7 +27,7 @@ class User(object):
         :return: True if valid, false otherwise
         """
 
-        user_data = Database.find_one("users", {"email": email}) # Password in sha512 -> shadf2_sha512
+        user_data = Database.find_one(UserConstants.COLLECTION, {"email": email}) # Password in sha512 -> shadf2_sha512
         if user_data is None:
             # Tell the user that their email doesn't exist
             raise UserErrors.UserNotExistsError("Your user does not exist")
@@ -69,3 +71,9 @@ class User(object):
             "password": self.password
         }
 
+    @classmethod
+    def find_by_email(cls, email):
+        return cls(**Database.find_one('users', {'email': email}))
+
+    def get_alerts(self):
+        return Alert.find_by_user_email(self.email)
