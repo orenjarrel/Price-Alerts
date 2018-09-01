@@ -12,7 +12,7 @@ def login_user():
     if request.method == 'POST':
         # Check that login is valid
         email = request.form['email']
-        password = request.form['hashed']
+        password = request.form['password']
 
         try:
             if User.is_login_valid(email, password):
@@ -28,7 +28,7 @@ def login_user():
 def register_user():
     if request.method == 'POST':
         email = request.form['email']
-        password = request.form['hashed']
+        password = request.form['password']
 
         try:
             if User.register_user(email, password):
@@ -49,7 +49,8 @@ def user_alerts():
 
 @user_blueprint.route('/logout')
 def logout_user():
-    pass
+    session['email'] = None
+    return redirect(url_for('home'))
 
 
 @user_blueprint.route('/check_alerts/<string:user_id>')
